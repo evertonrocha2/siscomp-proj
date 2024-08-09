@@ -1,0 +1,42 @@
+
+
+body{
+  background-color: #07070B;
+  color: white;
+}
+.react-data-table-component .rdt_Pagination {
+    border: 1px solid #363636;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6ee7b7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+/* Estilo específico para DataGrid */
+.custom-data-grid::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-data-grid::-webkit-scrollbar-thumb {
+  background-color: #6ee7b7;
+  border-radius: 4px;
+}
+
+.custom-data-grid::-webkit-scrollbar-track {
+  background: #111827;
+}
