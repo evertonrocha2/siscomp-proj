@@ -18,9 +18,9 @@ Manteremos o backlog atualizado com todas as funcionalidades principais (Cadastr
 - Status: Concluído
 
 ### 3. Cadastro de Cotações
--Descrição: Implementar o cadastro de cotações para que os fornecedores possam fornecer preços e condições para os produtos.
--Prioridade: Alta
--Status: Concluído
+- Descrição: Implementar o cadastro de cotações para que os fornecedores possam fornecer preços e condições para os produtos.
+- Prioridade: Alta
+- Status: Concluído
 
 ### 4. Consulta de Cotações
 - Descrição: Criar uma interface para consulta de cotações registradas no sistema, permitindo filtrar por produto, fornecedor, e data.
