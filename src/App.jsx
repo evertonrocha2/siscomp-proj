@@ -11,26 +11,28 @@ import { auth } from "./infra/firebase"; // Ajuste o caminho conforme necessári
 
 import "./App.css";
 import "./index.css";
-import FormContato from "./FormContato";
+import FormContato from "./pages/contato/FormContato";
 import { listarFornecedores } from "./infra/fornecedores";
 import { listarContatos } from "./infra/contatos";
-import FormFornecedor from "./FormFornecedor";
-import FormCotacao from "./FormCotacao";
-import FormProdutos from "./FormProdutos";
+import FormFornecedor from "./pages/fornecedor/FormFornecedor";
+import FormCotacao from "./pages/cotacao/FormCotacao";
+import FormProdutos from "./pages/produtos/FormProdutos";
 import { listarProdutos } from "./infra/produtos";
 import { listarCotacoes } from "./infra/cotacao";
-import Dashboard from "./Dashboard";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import Dashboard from "../src/pages/dashboard/Dashboard";
+import LoginPage from "./pages/login-registro/LoginPage";
+import RegisterPage from "./pages/login-registro/RegisterPage";
+import Cadastros from "./pages/cadastro/Cadastros";
 
 export default function App() {
   const [contatos, setContatos] = useState();
   const [cotacoes, setCotacoes] = useState();
   const [fornecedores, setFornecedores] = useState();
   const [produtos, setProdutos] = useState();
-  const [userType, setUserType] = useState("Collaborator");
   const [idEmEdicao, setidEmEdicao] = useState("");
   const [usuario, setUsuario] = useState(null);
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -79,13 +81,7 @@ export default function App() {
         />
         <Route
           path="/register"
-          element={
-            usuario ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <RegisterPage setUserType={setUserType} userType={userType} />
-            )
-          }
+          element={usuario ? <Navigate to="/dashboard" /> : <RegisterPage />}
         />
         <Route
           path="/fornecedores"
@@ -102,6 +98,7 @@ export default function App() {
             )
           }
         />
+
         <Route
           path="/contatos"
           element={
@@ -131,6 +128,10 @@ export default function App() {
               <Navigate to="/login" />
             )
           }
+        />
+        <Route
+          path="/cadastros"
+          element={usuario ? <Cadastros /> : <Navigate to="/login" />}
         />
         <Route
           path="/produtos"

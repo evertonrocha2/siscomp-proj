@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { listarProdutos, obterProduto } from "./infra/produtos";
+import { listarProdutos, obterProduto } from "../../infra/produtos";
 import {
   alterarCotacao,
   excluirCotacao,
   inserirCotacao,
-} from "./infra/cotacao";
+} from "../../infra/cotacao";
 import ListaCotacao from "./ListaCotacao";
-import TitleListas from "./components/TitleListas";
-import InputSalvar from "./components/InputSalvar";
-import InputDeletar from "./components/InputDeletar";
-import NavComponent from "./components/NavComponent";
+import TitleListas from "../../components/TitleListas";
+import InputSalvar from "../../components/InputSalvar";
+import InputDeletar from "../../components/InputDeletar";
+import NavComponent from "../../components/NavComponent";
 
 export default function FormCotacao({
   idEmEdicao,
@@ -98,19 +98,21 @@ export default function FormCotacao({
   return (
     <>
       <NavComponent setUsuario={setUsuario} />
-      <div className="md:w-[35%] sm:w-[60%] w-[90%] my-4 mx-auto">
-        <h1 className="text-3xl text-center font-bold tracking-tighter text-[#ACFFAF] my-8">
+      <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <h1 className="text-3xl text-center tracking-tighter  font-geist  font-bold text-slate-900 my-8">
           Formulário de Cotação
         </h1>
         <form
-          className="flex flex-col bg-[#07070B] border-2 border-gray-600 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
-          <div className="flex flex-col gap-2">
-            <label className="">Selecionar Produto</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">
+              Selecionar Produto
+            </label>
             <select
               {...register("produto")}
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               onChange={(e) => setValue("produto", e.target.value)}
             >
               <option value="">Selecione um produto</option>
@@ -121,10 +123,10 @@ export default function FormCotacao({
               ))}
             </select>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Nome</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Nome</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={50}
               {...register("nome", {
                 required: "Nome é obrigatório",
@@ -138,11 +140,11 @@ export default function FormCotacao({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Data de cotação</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Data de cotação</label>
             <input
               type="date"
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={30}
               {...register("data", {
                 required: "Data é obrigatória",
@@ -155,9 +157,9 @@ export default function FormCotacao({
             <InputDeletar handleExcluir={handleExcluir} />
           </div>
         </form>
+        <TitleListas title="Lista de cotações cadastradas" />
+        <ListaCotacao cotacoes={cotacoes} setidEmEdicao={setidEmEdicao} />
       </div>
-      <TitleListas title="Lista de cotações cadastradas" />
-      <ListaCotacao cotacoes={cotacoes} setidEmEdicao={setidEmEdicao} />
     </>
   );
 }

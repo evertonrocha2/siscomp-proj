@@ -1,69 +1,32 @@
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { logarUsuario } from "../../infra/usuarios";
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import Select from "react-select";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../src/infra/firebase";
-import { Link } from "react-router-dom";
-export default function RegisterPage({ setUserType, userType }) {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const options = [
-    { value: "Collaborator", label: "Colaborador" },
-    { value: "Admin", label: "Administrador" },
-  ];
-  const getOptionByValue = (value) =>
-    options.find((option) => option.value === value);
 
-  const handleChange = (selectedOption) => {
-    setUserType(selectedOption.value);
-  };
+export default function LoginPage({ setUsuario }) {
+  const navigate = useNavigate();
 
-  const handleRegister = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        login,
-        password
-      );
-
-      const newUser = userCredential.user;
-      const currentUser = newUser;
-
-      if (!currentUser) {
-        alert(
-          "Você precisa estar logado como administrador para registrar novos usuários."
-        );
-        return;
+  async function handleClick(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const loginPromise = new Promise(async (res, rej) => {
+      try {
+        let usuario = await logarUsuario(email, senha);
+        if (usuario.id) {
+          setUsuario(usuario);
+          navigate("/dashboard");
+          res(usuario);
+        }
+      } catch (error) {
+        rej(error);
       }
-
-      const userRef = doc(db, "usuarios", currentUser.uid);
-      const userSnap = await getDoc(userRef);
-      const currentUserData = userSnap.data();
-
-      if (userType === "Admin" && !currentUserData?.isAdmin) {
-        alert(
-          "Somente administradores podem registrar outros administradores."
-        );
-        return;
-      }
-
-      await setDoc(doc(db, "usuarios", newUser.uid), {
-        email: login,
-        senha: password,
-        isAdmin: userType === "Admin",
-      });
-
-      alert("Usuário registrado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao registrar usuário:", error);
-      alert(error.message);
-    }
-  };
+    });
+  }
 
   return (
-    <div className="flex">
+    <form className="flex">
       <div className="bg-[#07070B] hidden lg:flex w-[70%] h-[100vh] items-center justify-center">
-        <svg
+      <svg
           width="100%"
           height="80%"
           className="mt-14"
@@ -293,10 +256,9 @@ export default function RegisterPage({ setUserType, userType }) {
             Digite o seu email...
           </label>
           <input
-            type="text"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
+            id="email"
             className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
+            type="email"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -304,51 +266,24 @@ export default function RegisterPage({ setUserType, userType }) {
             Digite a sua senha...
           </label>
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             id="senha"
             className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-white font-geist tracking-tighter font-geist-sans">
-            Tipo de Usuário
-          </label>
-          <Select
-            options={options}
-            value={getOptionByValue(userType)}
-            onChange={handleChange}
-            styles={{
-              control: (base) => ({
-                ...base,
-                backgroundColor: "transparent",
-                color: "white",
-                border: "2px solid #363636",
-                padding: "6px",
-              }),
-              option: (provided, state) => ({
-                ...provided,
-                color: state.isSelected ? "white" : "black",
-                backgroundColor: state.isFocused ? "#ACFFAF" : "white",
-                padding: "6px",
-              }),
-            }}
+            type="password"
           />
         </div>
         <button
-          onClick={handleRegister}
+          onClick={handleClick}
           className="bg-[#ACFFAF] rounded py-4 w-[70%] mx-auto px-2 font-semibold tracking-tighter hover:bg-[#A2D79A] transition-all  font-geist-sans text-black"
         >
           Entrar
         </button>
         <span className="text-white text-center tracking-tighter font-geist">
-          Já tem uma conta?{" "}
-          <Link className="hover:text-[#ACFFAF] transition-all" to="/login">
-            <strong>Entrar</strong>
+          Ainda não tem uma conta?{" "}
+          <Link className="hover:text-[#ACFFAF] transition-all" to="/register">
+            <strong>Registrar</strong>
           </Link>
         </span>
       </div>
-    </div>
+    </form>
   );
 }

@@ -1,17 +1,17 @@
 import { useForm } from "react-hook-form";
-import { emailRegex, numericRegex } from "./Regex";
+import { emailRegex, numericRegex } from "../../Regex";
 import {
   alterarContato,
   excluirContato,
   inserirContato,
   obterContato,
-} from "./infra/contatos";
+} from "../../infra/contatos";
 import { useEffect, useState } from "react";
 import ListaContatos from "./ListaContatos";
-import InputSalvar from "./components/InputSalvar";
-import InputDeletar from "./components/InputDeletar";
-import TitleListas from "./components/TitleListas";
-import NavComponent from "./components/NavComponent";
+import InputSalvar from "../../components/InputSalvar";
+import InputDeletar from "../../components/InputDeletar";
+import TitleListas from "../../components/TitleListas";
+import NavComponent from "../../components/NavComponent";
 
 export default function FormContato({
   contatos,
@@ -67,18 +67,18 @@ export default function FormContato({
   return (
     <>
       <NavComponent setUsuario={setUsuario} />
-      <div className="md:w-[35%] sm:w-[60%] w-[90%] my-4 mx-auto">
-        <h1 className="text-3xl text-center tracking-tighter font-bold text-[#ACFFAF] my-8">
+      <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <h1 className="text-3xl text-center tracking-tighter font-geist  font-bold text-slate-900 my-8">
           Formulário de Contatos
         </h1>
         <form
-          className="flex flex-col bg-[#07070B] border-2 border-gray-600  rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
-          <div className="flex flex-col gap-2">
-            <label className="">Nome</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Nome</label>
             <input
-              className="bg-[#0C0C13] rounded  py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={50}
               {...register("nome", {
                 required: "Nome é obrigatório",
@@ -92,10 +92,10 @@ export default function FormContato({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">E-mail</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">E-mail</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={30}
               {...register("email", {
                 required: "Email é obrigatório",
@@ -112,10 +112,10 @@ export default function FormContato({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Telefone</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Telefone</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={14}
               {...register("fone", {
                 required: "Telefone é obrigatório",
@@ -134,9 +134,9 @@ export default function FormContato({
             <InputDeletar handleExcluir={handleExcluir} />
           </div>
         </form>
+        <TitleListas title="Lista dos contatos cadastrados" />
+        <ListaContatos contatos={contatos} setidEmEdicao={setidEmEdicao} />
       </div>
-      <TitleListas title="Lista dos contatos cadastrados" />
-      <ListaContatos contatos={contatos} setidEmEdicao={setidEmEdicao} />
     </>
   );
 }

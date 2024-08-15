@@ -5,12 +5,12 @@ import {
   excluirProduto,
   inserirProduto,
   obterProduto,
-} from "./infra/produtos";
+} from "../../infra/produtos";
 import ListaProdutos from "./ListaProdutos";
-import InputSalvar from "./components/InputSalvar";
-import TitleListas from "./components/TitleListas";
-import InputDeletar from "./components/InputDeletar";
-import NavComponent from "./components/NavComponent";
+import InputSalvar from "../../components/InputSalvar";
+import TitleListas from "../../components/TitleListas";
+import InputDeletar from "../../components/InputDeletar";
+import NavComponent from "../../components/NavComponent";
 
 export default function FormProduto({
   idEmEdicao,
@@ -64,18 +64,18 @@ export default function FormProduto({
   return (
     <>
       <NavComponent setUsuario={setUsuario} />
-      <div className="md:w-[35%] sm:w-[60%] w-[90%] my-4 mx-auto">
-        <h1 className="text-3xl tracking-tighter text-center font-bold text-[#ACFFAF]  my-8">
+      <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <h1 className="text-3xl text-center tracking-tighter font-geist  font-bold text-slate-900 my-8">
           Formulário de Produtos
         </h1>
         <form
-          className="flex flex-col bg-[#07070B] border-2 border-gray-600 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
-          <div className="flex flex-col gap-2">
-            <label className="">Nome</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Nome</label>
             <input
-              className="bg-[#0C0C13] rounded  py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={50}
               {...register("nome", {
                 required: "Nome é obrigatório",
@@ -89,20 +89,20 @@ export default function FormProduto({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Categoria</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Categoria</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={30}
               {...register("categoria", {
                 required: "Categoria é obrigatório",
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Descrição</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Descrição</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={14}
               {...register("descricao", {
                 required: "Descrição é obrigatória",
@@ -114,9 +114,9 @@ export default function FormProduto({
             <InputDeletar handleExcluir={handleExcluir} />
           </div>
         </form>
+        <TitleListas title="Lista dos produtos cadastrados" />
+        <ListaProdutos produtos={produtos} setidEmEdicao={setidEmEdicao} />
       </div>
-      <TitleListas title="Lista dos produtos cadastrados" />
-      <ListaProdutos produtos={produtos} setidEmEdicao={setidEmEdicao} />
     </>
   );
 }

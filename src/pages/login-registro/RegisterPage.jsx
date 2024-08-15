@@ -1,28 +1,38 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { logarUsuario } from "./infra/usuarios";
 import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function LoginPage({ setUsuario }) {
-  const navigate = useNavigate();
-  async function handleClick(event) {
-    event.preventDefault();
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const loginPromise = new Promise(async (res, rej) => {
-      try {
-        let usuario = await logarUsuario(email, senha);
-        if (usuario.id) {
-          setUsuario(usuario);
-          navigate("/dashboard");
-          res(usuario);
-        }
-      } catch (error) {
-        rej(error);
-      }
-    });
-  }
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../infra/firebase";
+import { Link } from "react-router-dom";
+export default function RegisterPage() {
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [blocked, setBlocked] = useState(false);
+  const handleRegister = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        login,
+        password
+      );
+
+      const newUser = userCredential.user;
+      await setDoc(doc(db, "usuarios", newUser.uid), {
+        email: login,
+        senha: password,
+        isAdmin: false,
+        blocked: blocked,
+      });
+
+      alert("Usuário registrado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao registrar usuário:", error);
+      alert(error.message);
+    }
+  };
+
   return (
-    <form className="flex">
+    <div className="flex">
       <div className="bg-[#07070B] hidden lg:flex w-[70%] h-[100vh] items-center justify-center">
         <svg
           width="100%"
@@ -254,9 +264,10 @@ export default function LoginPage({ setUsuario }) {
             Digite o seu email...
           </label>
           <input
-            id="email"
+            type="text"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
             className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
-            type="email"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -264,24 +275,27 @@ export default function LoginPage({ setUsuario }) {
             Digite a sua senha...
           </label>
           <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             id="senha"
             className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
-            type="password"
           />
         </div>
+
         <button
-          onClick={handleClick}
+          onClick={handleRegister}
           className="bg-[#ACFFAF] rounded py-4 w-[70%] mx-auto px-2 font-semibold tracking-tighter hover:bg-[#A2D79A] transition-all  font-geist-sans text-black"
         >
           Entrar
         </button>
         <span className="text-white text-center tracking-tighter font-geist">
-          Ainda não tem uma conta?{" "}
-          <Link className="hover:text-[#ACFFAF] transition-all" to="/register">
-            <strong>Registrar</strong>
+          Já tem uma conta?{" "}
+          <Link className="hover:text-[#ACFFAF] transition-all" to="/login">
+            <strong>Entrar</strong>
           </Link>
         </span>
       </div>
-    </form>
+    </div>
   );
 }

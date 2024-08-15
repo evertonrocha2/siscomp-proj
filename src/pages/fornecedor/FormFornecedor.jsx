@@ -1,18 +1,18 @@
 import { useForm } from "react-hook-form";
-import { listarContatos, obterContato } from "./infra/contatos";
+import { listarContatos, obterContato } from "../../infra/contatos";
 import { useEffect, useState } from "react";
 import {
   alterarFornecedor,
   excluirFornecedor,
   inserirFornecedor,
   obterFornecedor,
-} from "./infra/fornecedores";
+} from "../../infra/fornecedores";
 import ListaFornecedor from "./ListaFornecedor";
-import InputSalvar from "./components/InputSalvar";
-import InputDeletar from "./components/InputDeletar";
-import TitleListas from "./components/TitleListas";
-import { getViaCep } from "./infra/viacep";
-import NavComponent from "./components/NavComponent";
+import InputSalvar from "../../components/InputSalvar";
+import InputDeletar from "../../components/InputDeletar";
+import TitleListas from "../../components/TitleListas";
+import { getViaCep } from "../../infra/viacep";
+import NavComponent from "../../components/NavComponent";
 
 export default function FormFornecedor({
   idEmEdicao,
@@ -38,6 +38,7 @@ export default function FormFornecedor({
         const fornecedor = await obterFornecedor(idEmEdicao);
         setValue("nome", fornecedor.nome);
         setValue("endereco", fornecedor.endereco);
+        setValue("cep", fornecedor.cep);
 
         if (fornecedor.contato) {
           setContatoSelecionadoId(fornecedor.contato.id);
@@ -107,18 +108,18 @@ export default function FormFornecedor({
   return (
     <>
       <NavComponent setUsuario={setUsuario} />
-      <div className="md:w-[35%] sm:w-[60%] w-[90%] my-4 mx-auto">
-        <h1 className="text-3xl text-center tracking-tighter font-bold text-[#ACFFAF] my-8">
+      <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <h1 className="text-3xl text-center font-geist font-bold tracking-tighter text-slate-900 my-8">
           Formulário de Fornecedores
         </h1>
         <form
-          className="flex flex-col bg-[#07070B] border-2 border-gray-600 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
-          <div className="flex flex-col gap-2">
-            <label className="">Nome</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Nome</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={50}
               {...register("nome", {
                 required: "Nome é obrigatório",
@@ -132,11 +133,11 @@ export default function FormFornecedor({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">CEP</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">CEP</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
-              maxLength={8} 
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
+              maxLength={8}
               {...register("cep", {
                 required: "CEP é obrigatório",
                 pattern: {
@@ -146,10 +147,10 @@ export default function FormFornecedor({
               })}
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Endereço</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">Endereço</label>
             <input
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               size={50}
               {...register("endereco", {
                 required: "Endereço é obrigatório",
@@ -157,11 +158,13 @@ export default function FormFornecedor({
               readOnly
             />
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="">Selecionar Contato</label>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">
+              Selecionar Contato
+            </label>
             <select
               {...register("contato")}
-              className="bg-[#0C0C13] rounded py-2 px-4"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
               onChange={(e) => setContatoSelecionadoId(e.target.value)}
               value={contatoSelecionadoId}
             >
@@ -178,12 +181,12 @@ export default function FormFornecedor({
             <InputDeletar handleExcluir={handleExcluir} />
           </div>
         </form>
+        <TitleListas title="Lista dos fornecedores cadastrados" />
+        <ListaFornecedor
+          fornecedores={fornecedores}
+          setidEmEdicao={setidEmEdicao}
+        />
       </div>
-      <TitleListas title="Lista dos fornecedores cadastrados" />
-      <ListaFornecedor
-        fornecedores={fornecedores}
-        setidEmEdicao={setidEmEdicao}
-      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import NavComponent from "./components/NavComponent";
+import NavComponent from "../../components/NavComponent";
 
 export default function Dashboard({ setUsuario }) {
   return (
