@@ -29,8 +29,11 @@
     "@mui/material": "^5.16.7",
     "@mui/x-data-grid": "^7.12.1",
     "axios": "^1.7.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "firebase": "^10.12.5",
     "firebase-admin": "^12.3.1",
+    "framer-motion": "^11.3.27",
     "geist": "^1.3.1",
     "lucide-react": "^0.427.0",
     "mui-datatables": "^4.3.0",
@@ -39,6 +42,8 @@
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.1",
     "react-select": "^5.8.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7"
   }
 }

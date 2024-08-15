@@ -11,6 +11,7 @@ import InputSalvar from "../../components/InputSalvar";
 import TitleListas from "../../components/TitleListas";
 import InputDeletar from "../../components/InputDeletar";
 import NavComponent from "../../components/NavComponent";
+import BlurIn from "../../../@/components/magicui/blur-in";
 
 export default function FormProduto({
   idEmEdicao,
@@ -66,7 +67,7 @@ export default function FormProduto({
       <NavComponent setUsuario={setUsuario} />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
         <h1 className="text-3xl text-center tracking-tighter font-geist  font-bold text-slate-900 my-8">
-          Formulário de Produtos
+          <BlurIn word={"Formulário de Produtos"}></BlurIn>
         </h1>
         <form
           className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"

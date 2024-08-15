@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import InputDeletar from "../../components/InputDeletar";
 import NavComponent from "../../components/NavComponent";
 import Select from "react-select";
 import { auth, db } from "../../infra/firebase";
-import { sendEmailVerification } from "firebase/auth";
 
 import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 import {
@@ -19,6 +18,7 @@ import {
 import ListaCadastros from "./ListaCadastros";
 import TitleListas from "../../components/TitleListas";
 import { Blocks, Shield, ShieldCheck, ShieldX, XIcon } from "lucide-react";
+import BlurIn from "../../../@/components/magicui/blur-in";
 
 export default function Cadastros() {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -198,7 +198,9 @@ export default function Cadastros() {
       <NavComponent />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
         <h1 className="text-3xl text-center tracking-tighter font-geist font-bold text-slate-900 my-8">
-          Cadastro de Colaboradores ou Administradores
+          <BlurIn
+            word={"Cadastro de Colaboradores ou Administradores"}
+          ></BlurIn>
         </h1>
         <form
           className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"

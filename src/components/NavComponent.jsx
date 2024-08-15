@@ -85,7 +85,7 @@ export default function NavComponent({ setUsuario }) {
             ></div>
 
             <nav
-              className={`text-slate-900 transition-all duration-500 sm:hidden fixed flex w-[60%] z-30 px-2 py-8 left-0 top-0 h-full flex-col items-center bg-white border-r border-slate-300 ${
+              className={`text-slate-900 transition-all  duration-500 sm:hidden fixed flex w-[60%] z-30 px-2 py-8 left-0 top-0 h-full flex-col items-center bg-white border-r border-slate-300 ${
                 menuAberto ? "block" : "hidden"
               }`}
             >
@@ -155,7 +155,7 @@ export default function NavComponent({ setUsuario }) {
               />
             </nav>
           </div>
-          <div className="hidden fixed sm:flex w-14 px-2 py-12 left-0 top-0 h-full flex-col items-center bg-transparent border-r border-slate-300">
+          <div className="hidden bg-white fixed sm:flex w-14 px-2 py-12 left-0 top-0 h-full flex-col items-center bg-transparent border-r border-slate-300">
             <nav className={`text-slate-900 transition-all duration-500 `}>
               <ul className=" flex-col flex items-center justify-around gap-20">
                 <div className="flex  flex-col items-center gap-16">

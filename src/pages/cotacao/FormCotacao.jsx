@@ -11,6 +11,7 @@ import TitleListas from "../../components/TitleListas";
 import InputSalvar from "../../components/InputSalvar";
 import InputDeletar from "../../components/InputDeletar";
 import NavComponent from "../../components/NavComponent";
+import BlurIn from "../../../@/components/magicui/blur-in";
 
 export default function FormCotacao({
   idEmEdicao,
@@ -100,7 +101,7 @@ export default function FormCotacao({
       <NavComponent setUsuario={setUsuario} />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
         <h1 className="text-3xl text-center tracking-tighter  font-geist  font-bold text-slate-900 my-8">
-          Formulário de Cotação
+          <BlurIn word={"Formulário de Cotação"}></BlurIn>
         </h1>
         <form
           className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"

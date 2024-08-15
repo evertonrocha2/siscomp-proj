@@ -32,8 +32,6 @@ export default function App() {
   const [idEmEdicao, setidEmEdicao] = useState("");
   const [usuario, setUsuario] = useState(null);
 
-
-
   useEffect(() => {
     async function fetchData() {
       const novaListaContatos = await listarContatos();
