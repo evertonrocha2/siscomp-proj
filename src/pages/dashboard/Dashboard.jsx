@@ -1,22 +1,91 @@
+import { Bot, Box, BusFront, Grid } from "lucide-react";
 import Meteors from "../../../@/components/magicui/meteors";
 import { VelocityScroll } from "../../../@/components/magicui/scroll-based-velocity";
 import { DashItem } from "../../components/DashItem";
 import NavComponent from "../../components/NavComponent";
+import Particles from "../../../@/components/magicui/particles";
+import GridPatternLinearGradient from "../../components/GridPatternLinearGradient";
 
 export default function Dashboard({ setUsuario }) {
   return (
     <>
       <NavComponent setUsuario={setUsuario} />
       <div className="flex items-center justify-center flex-col">
-        <div className="w-full flex  flex-col items-center justify-center mx-auto mt-8 gap-4 px-8 sm:px-0">
-          <h2 className="text-2xl font-geist font-semibold text-slate-900">
+        <div className="w-full flex  flex-col items-center border-slate-300 justify-center mx-auto mt-8 gap-4 px-8 sm:px-0">
+          <h2 className="text-2xl font-geist font-semibold tracking-tighter text-slate-900">
             Aqui você está em conexão com o Sistema!
           </h2>
           <DashItem />
         </div>
-        <h2 className="text-3xl font-geist font-semibold text-slate-900 mt-16 px-8 sm:px-0">
+        <div className="border-b border-slate-300 w-full h-[1px] my-8"></div>
+        <h2 className="text-3xl font-geist tracking-tighter font-semibold text-slate-900  px-8 sm:px-0">
           Bem vindo ao Sistema de Compras
         </h2>
+
+        <div>
+          <div className="flex gap-8 mt-8">
+            <div className="h-[200px] relative overflow-hidden w-[400px] p-8 shadow-lg border border-slate-300 rounded-lg flex flex-col gap-4">
+              <GridPatternLinearGradient />
+              <Particles
+                className="absolute inset-0"
+                quantity={20}
+                ease={80}
+                color="#000000"
+                refresh
+              />
+              <div className="flex">
+                <h2 className="text-xl font-semibold  font-geist tracking-tighter">
+                  Lorem ispum dolor
+                </h2>
+                <BusFront className="ml-auto" />
+              </div>
+              <p className="">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor.
+              </p>
+            </div>
+            <div className="h-[200px] relative overflow-hidden w-[400px] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
+              <GridPatternLinearGradient />
+              <Particles
+                className="absolute inset-0"
+                quantity={20}
+                ease={80}
+                color="#000000"
+                refresh
+              />
+              <div className="flex">
+                <h2 className="text-xl font-semibold font-geist tracking-tighter">
+                  Lorem ispum dolor
+                </h2>
+                <Box className="ml-auto" />
+              </div>
+              <p className="">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor.
+              </p>
+            </div>
+            <div className="h-[200px] relative overflow-hidden w-[400px] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
+              <GridPatternLinearGradient />
+              <Particles
+                className="absolute inset-0"
+                quantity={20}
+                ease={80}
+                color="#000000"
+                refresh
+              />
+              <div className="flex">
+                <h2 className="text-xl font-semibold font-geist tracking-tighter">
+                  Lorem ispum dolor
+                </h2>
+                <Bot className="ml-auto" />
+              </div>
+              <p className="">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor.
+              </p>
+            </div>
+          </div>
+        </div>
         <div className="py-4 relative overflow-hidden w-[100%] rounded sm:w-[100%] z-[-99] border border-slate-300 mt-8">
           <Meteors />
           <VelocityScroll
