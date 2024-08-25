@@ -12,6 +12,7 @@ import InputSalvar from "../../components/InputSalvar";
 import InputDeletar from "../../components/InputDeletar";
 import NavComponent from "../../components/NavComponent";
 import BlurIn from "../../../@/components/magicui/blur-in";
+import GridPatternLinearGradient from "../../components/GridPatternLinearGradient";
 
 export default function FormCotacao({
   idEmEdicao,
@@ -62,6 +63,7 @@ export default function FormCotacao({
           setValue("produto", cotacao.produto?.id || "");
           setValue("nome", cotacao.nome);
           setValue("data", cotacao.data);
+          setValue("valor", cotacao.valor);
         }
       } else {
         reset();
@@ -100,11 +102,12 @@ export default function FormCotacao({
     <>
       <NavComponent setUsuario={setUsuario} />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <GridPatternLinearGradient />
         <h1 className="text-3xl text-center tracking-tighter  font-geist  font-bold text-slate-900 my-8">
           <BlurIn word={"Formulário de Cotação"}></BlurIn>
         </h1>
         <form
-          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border  bg-white border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
           <div className="flex flex-col gap-0">
@@ -149,6 +152,19 @@ export default function FormCotacao({
               size={30}
               {...register("data", {
                 required: "Data é obrigatória",
+              })}
+            />
+          </div>
+          <div className="flex flex-col gap-0">
+            <label className="text-slate-900 font-geist">
+              Valor do produto
+            </label>
+            <input
+              type="text"
+              className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
+              size={30}
+              {...register("valor", {
+                required: "Valor é obrigatório",
               })}
             />
           </div>

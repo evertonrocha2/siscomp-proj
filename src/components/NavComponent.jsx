@@ -192,6 +192,11 @@ export default function NavComponent({ setUsuario }) {
                       <MessageSquareOff className="h-4 w-4" />
                     </Link>
                   </li>
+                  <li className="hover:text-[#A9FFB7] transition-all">
+                    <Link to="/requisicoes">
+                      <BadgePlus className="h-4 w-4" />
+                    </Link>
+                  </li>
                 </div>
               </ul>
             </nav>
@@ -206,14 +211,8 @@ export default function NavComponent({ setUsuario }) {
           <div>
             <Menu
               onClick={toggleMenu}
-              className="h-8 w-8 sm:hidden block mx-auto mt-8"
+              className="h-8 w-8 sm:hidden block mx-auto mt-8 bg-white"
             />
-            <div
-              className={`fixed inset-0 bg-black bg-opacity-50 z-10 transition-opacity duration-500 ${
-                menuAberto ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-              onClick={toggleMenu}
-            ></div>
 
             <nav
               className={`text-slate-900 transition-all duration-500 sm:hidden fixed flex w-[60%] z-30 px-2 py-8 left-0 top-0 h-full flex-col items-center bg-white border-r border-slate-300 ${
@@ -250,7 +249,7 @@ export default function NavComponent({ setUsuario }) {
               />
             </nav>
           </div>
-          <div className="hidden fixed sm:flex w-14 px-2 py-12 left-0 top-0 h-full flex-col items-center bg-transparent border-r border-slate-300">
+          <div className="hidden bg-white fixed sm:flex w-14 px-2 z-50 py-12 left-0 top-0 h-full flex-col items-center  border-r border-slate-300">
             <nav className={`text-slate-900 transition-all duration-500 `}>
               <ul className=" flex-col flex items-center justify-around gap-20">
                 <div className="flex  flex-col items-center gap-16">

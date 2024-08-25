@@ -23,14 +23,19 @@ import Dashboard from "../src/pages/dashboard/Dashboard";
 import LoginPage from "./pages/login-registro/LoginPage";
 import RegisterPage from "./pages/login-registro/RegisterPage";
 import Cadastros from "./pages/cadastro/Cadastros";
+import FormRequisicao from "./pages/requisicoes/FormRequisicao";
+import { listarRequisicoes } from "./infra/requisicoes";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function App() {
   const [contatos, setContatos] = useState();
   const [cotacoes, setCotacoes] = useState();
+  const [requisicoes, setRequisicoes] = useState();
   const [fornecedores, setFornecedores] = useState();
   const [produtos, setProdutos] = useState();
   const [idEmEdicao, setidEmEdicao] = useState("");
   const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,10 +43,12 @@ export default function App() {
       const novaListaFornecedores = await listarFornecedores();
       const novaListaProdutos = await listarProdutos();
       const novaListaCotacoes = await listarCotacoes();
+      const novaListaRequisicoes = await listarRequisicoes();
       setContatos(novaListaContatos);
       setFornecedores(novaListaFornecedores);
       setProdutos(novaListaProdutos);
       setCotacoes(novaListaCotacoes);
+      setRequisicoes(novaListaRequisicoes);
       console.log("Lista de contatos:", novaListaContatos);
       console.log("Lista de fornecedores:", novaListaFornecedores);
       console.log("Lista de produtos:", novaListaProdutos);
@@ -51,12 +58,25 @@ export default function App() {
   }, [idEmEdicao]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUsuario(user ? { id: user.uid, email: user.email } : null);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        setUsuario(user ? { id: user.uid, email: user.email } : null);
+        setLoading(false);
+      },
+      [usuario]
+    );
 
     return () => unsubscribe();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <Router>
@@ -151,6 +171,23 @@ export default function App() {
           element={
             usuario ? (
               <Dashboard setUsuario={setUsuario} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/requisicoes"
+          element={
+            usuario ? (
+              <FormRequisicao
+                setUsuario={setUsuario}
+                setidEmEdicao={setidEmEdicao}
+                requisicoes={requisicoes}
+                idEmEdicao={idEmEdicao}
+                usuarioId={usuario.id}
+                usuario={usuario}
+              />
             ) : (
               <Navigate to="/login" />
             )

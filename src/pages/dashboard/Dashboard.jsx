@@ -11,6 +11,8 @@ export default function Dashboard({ setUsuario }) {
     <>
       <NavComponent setUsuario={setUsuario} />
       <div className="flex items-center justify-center flex-col">
+        <GridPatternLinearGradient />
+
         <div className="w-full flex  flex-col items-center border-slate-300 justify-center mx-auto mt-8 gap-4 px-8 sm:px-0">
           <h2 className="text-2xl font-geist font-semibold tracking-tighter text-slate-900">
             Aqui você está em conexão com o Sistema!
@@ -23,8 +25,8 @@ export default function Dashboard({ setUsuario }) {
         </h2>
 
         <div>
-          <div className="flex gap-8 mt-8">
-            <div className="h-[200px] relative overflow-hidden w-[400px] p-8 shadow-lg border border-slate-300 rounded-lg flex flex-col gap-4">
+          <div className="flex gap-8 mt-8 md:flex-row flex-col items-center justify-center">
+            <div className="h-[200px] relative overflow-hidden w-[80%] md:w-[26.33%] p-8 shadow-lg border border-slate-300 rounded-lg flex flex-col gap-4">
               <GridPatternLinearGradient />
               <Particles
                 className="absolute inset-0"
@@ -39,12 +41,12 @@ export default function Dashboard({ setUsuario }) {
                 </h2>
                 <BusFront className="ml-auto" />
               </div>
-              <p className="">
+              <p className="text-sm">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor.
               </p>
             </div>
-            <div className="h-[200px] relative overflow-hidden w-[400px] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
+            <div className="h-[200px] relative overflow-hidden w-[80%] md:w-[26.33%] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
               <GridPatternLinearGradient />
               <Particles
                 className="absolute inset-0"
@@ -59,12 +61,12 @@ export default function Dashboard({ setUsuario }) {
                 </h2>
                 <Box className="ml-auto" />
               </div>
-              <p className="">
+              <p className="text-sm">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor.
               </p>
             </div>
-            <div className="h-[200px] relative overflow-hidden w-[400px] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
+            <div className="h-[200px] relative overflow-hidden w-[80%] md:w-[26.33%] shadow-lg p-8 border border-slate-300 rounded-lg flex flex-col gap-4">
               <GridPatternLinearGradient />
               <Particles
                 className="absolute inset-0"
@@ -79,20 +81,12 @@ export default function Dashboard({ setUsuario }) {
                 </h2>
                 <Bot className="ml-auto" />
               </div>
-              <p className="">
+              <p className="text-sm">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor.
               </p>
             </div>
           </div>
-        </div>
-        <div className="py-4 relative overflow-hidden w-[100%] rounded sm:w-[100%] z-[-99] border border-slate-300 mt-8">
-          <Meteors />
-          <VelocityScroll
-            text="Sistema de Compras e Cotações / SisComp / "
-            default_velocity={5}
-            className="font-geist text-center text-sm font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-xl md:leading-[3rem]"
-          />
         </div>
       </div>
     </>

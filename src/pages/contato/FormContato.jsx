@@ -13,6 +13,7 @@ import InputDeletar from "../../components/InputDeletar";
 import TitleListas from "../../components/TitleListas";
 import NavComponent from "../../components/NavComponent";
 import BlurIn from "../../../@/components/magicui/blur-in";
+import GridPatternLinearGradient from "../../components/GridPatternLinearGradient";
 
 export default function FormContato({
   contatos,
@@ -69,11 +70,12 @@ export default function FormContato({
     <>
       <NavComponent setUsuario={setUsuario} />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+      <GridPatternLinearGradient />
         <h1 className="text-3xl text-center tracking-tighter font-geist  font-bold text-slate-900 my-8">
           <BlurIn word={"Formulário de Contatos"}></BlurIn>
         </h1>
         <form
-          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border  bg-white border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(submeterDados)}
         >
           <div className="flex flex-col gap-0">

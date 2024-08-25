@@ -33,6 +33,13 @@ export default function ListaCotacao({ cotacoes = [], setidEmEdicao }) {
         fontWeight: "bold",
       },
     },
+    {
+      name: "Valor",
+      selector: (row) => row.valor,
+      style: {
+        fontWeight: "bold",
+      },
+    },
   ];
 
   const paginationOptions = {

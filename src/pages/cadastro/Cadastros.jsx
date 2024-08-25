@@ -19,6 +19,7 @@ import ListaCadastros from "./ListaCadastros";
 import TitleListas from "../../components/TitleListas";
 import { Blocks, Shield, ShieldCheck, ShieldX, XIcon } from "lucide-react";
 import BlurIn from "../../../@/components/magicui/blur-in";
+import GridPatternLinearGradient from "../../components/GridPatternLinearGradient";
 
 export default function Cadastros() {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -197,13 +198,14 @@ export default function Cadastros() {
     <div>
       <NavComponent />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
+        <GridPatternLinearGradient />
         <h1 className="text-3xl text-center tracking-tighter font-geist font-bold text-slate-900 my-8">
           <BlurIn
             word={"Cadastro de Colaboradores ou Administradores"}
           ></BlurIn>
         </h1>
         <form
-          className="flex flex-col border border-slate-300 rounded p-10 m-0 gap-4 text-white"
+          className="flex flex-col border  bg-white border-slate-300 rounded p-10 m-0 gap-4 text-white"
           onSubmit={handleSubmit(handleSubmitForm)}
         >
           <div className="flex flex-col gap-0">
