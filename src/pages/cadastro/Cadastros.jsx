@@ -5,10 +5,9 @@ import NavComponent from "../../components/NavComponent";
 import Select from "react-select";
 import { auth, db } from "../../infra/firebase";
 
-import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
+import { deleteUser } from "firebase/auth";
 import {
   doc,
-  setDoc,
   getDoc,
   getDocs,
   collection,
@@ -17,7 +16,7 @@ import {
 } from "firebase/firestore";
 import ListaCadastros from "./ListaCadastros";
 import TitleListas from "../../components/TitleListas";
-import { Blocks, Shield, ShieldCheck, ShieldX, XIcon } from "lucide-react";
+import { ShieldCheck, ShieldX, XIcon } from "lucide-react";
 import BlurIn from "../../../@/components/magicui/blur-in";
 import GridPatternLinearGradient from "../../components/GridPatternLinearGradient";
 
@@ -74,6 +73,7 @@ export default function Cadastros() {
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const userData = userSnap.data();
+          // Você pode usar userData aqui se necessário
         } else {
           reset();
         }
@@ -82,26 +82,31 @@ export default function Cadastros() {
       }
     }
     fetchUserData();
-  }, [idEmEdicao]);
+  }, [idEmEdicao, reset]);
 
   const handleSubmitForm = async (data) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.senha
-      );
-      const newUser = userCredential.user;
-
-      await setDoc(doc(db, "usuarios", newUser.uid), {
-        email: data.email,
-        senha: data.senha,
-        isAdmin: userType,
-        blocked: false,
+      const response = await fetch("http://localhost:5000/api/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.senha,
+          uid: Date.now().toString(), 
+          isAdmin: userType,
+        }),
       });
 
-      alert("Usuário registrado com sucesso!");
+      if (!response.ok) {
+        throw new Error("Falha ao criar usuário");
+      }
 
+      const result = await response.json();
+      console.log("Usuário criado:", result);
+
+      alert("Usuário registrado com sucesso!");
       reset();
       fetchCadastros();
     } catch (error) {

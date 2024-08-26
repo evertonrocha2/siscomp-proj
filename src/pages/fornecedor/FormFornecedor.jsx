@@ -20,6 +20,7 @@ export default function FormFornecedor({
   idEmEdicao,
   setidEmEdicao,
   fornecedores,
+  isAdmin,
   setUsuario,
 }) {
   const [contatos, setContatos] = useState([]);
@@ -109,7 +110,7 @@ export default function FormFornecedor({
 
   return (
     <>
-      <NavComponent setUsuario={setUsuario} />
+      <NavComponent setUsuario={setUsuario} isAdmin={isAdmin}  />
       <div className="sm:w-[60%] w-[95%] my-4 mx-auto">
         <GridPatternLinearGradient />
         <h1 className="text-3xl text-center font-geist font-bold tracking-tighter text-slate-900 my-8">

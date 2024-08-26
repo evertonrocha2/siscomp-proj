@@ -1,6 +1,4 @@
 import { Bot, Box, BusFront, Grid } from "lucide-react";
-import Meteors from "../../../@/components/magicui/meteors";
-import { VelocityScroll } from "../../../@/components/magicui/scroll-based-velocity";
 import { DashItem } from "../../components/DashItem";
 import NavComponent from "../../components/NavComponent";
 import Particles from "../../../@/components/magicui/particles";

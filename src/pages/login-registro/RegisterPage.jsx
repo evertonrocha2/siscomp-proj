@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../infra/firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Particles from "../../../@/components/magicui/particles";
 import BlurIn from "../../../@/components/magicui/blur-in";
 import {
@@ -11,32 +7,47 @@ import {
   AnimatedListItem,
 } from "../../../@/components/magicui/animated-list";
 import Meteors from "../../../@/components/magicui/meteors";
-import { BadgePlus, Contact, DollarSign, ShoppingBag, Users } from "lucide-react";
-export default function RegisterPage() {
-  const [login, setLogin] = useState("");
-  const [color, setColor] = useState("#000000");
-  const [password, setPassword] = useState("");
-  const [blocked, setBlocked] = useState(false);
-  const handleRegister = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        login,
-        password
-      );
+import {
+  BadgePlus,
+  Contact,
+  DollarSign,
+  ShoppingBag,
+  Users,
+} from "lucide-react";
 
-      const newUser = userCredential.user;
-      await setDoc(doc(db, "usuarios", newUser.uid), {
-        email: login,
-        senha: password,
-        isAdmin: false,
-        blocked: blocked,
+export default function RegisterPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [color, setColor] = useState("#000000");
+  const navigate = useNavigate();
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/api/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          uid: Date.now().toString(),
+          isAdmin: false,
+        }),
       });
 
-      alert("Usuário registrado com sucesso!");
+      if (!response.ok) {
+        throw new Error("Falha ao criar conta");
+      }
+
+      const data = await response.json();
+      console.log("Usuário criado:", data);
+      navigate("/login");
     } catch (error) {
-      console.error("Erro ao registrar usuário:", error);
-      alert(error.message);
+      setError("Falha ao criar conta. Tente novamente.");
+      console.error("Erro ao criar conta:", error);
     }
   };
 
@@ -97,36 +108,39 @@ export default function RegisterPage() {
         <h2 className="tracking-tighter font-geist font-semibold text-white text-3xl w-[80%] mx-auto text-center">
           Bem vindo! Registre-se para acessar o SisComp!
         </h2>
-        <div className="flex flex-col gap-2">
-          <label className="text-white font-geist tracking-tighter font-geist-sans ">
-            Digite o seu email...
-          </label>
-          <input
-            type="text"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-            className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-white font-geist tracking-tighter font-geist-sans">
-            Digite a sua senha...
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            id="senha"
-            className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
-          />
-        </div>
-
-        <button
-          onClick={handleRegister}
-          className="bg-[#ACFFAF] rounded py-4 w-[70%] mx-auto px-2 font-semibold tracking-tighter hover:bg-[#A2D79A] transition-all  font-geist-sans text-black"
-        >
-          Entrar
-        </button>
+        <form onSubmit={handleRegister} className="flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <label className="text-white font-geist tracking-tighter font-geist-sans ">
+              Digite o seu email...
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-white font-geist tracking-tighter font-geist-sans">
+              Digite a sua senha...
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border-2 border-[#363636] bg-transparent rounded py-[8px] px-4 focus:outline-none text-white"
+              required
+            />
+          </div>
+          {error && <p className="text-red-500">{error}</p>}
+          <button
+            type="submit"
+            className="bg-[#ACFFAF] rounded py-4 w-[70%] mx-auto px-2 font-semibold tracking-tighter hover:bg-[#A2D79A] transition-all  font-geist-sans text-black"
+          >
+            Registrar
+          </button>
+        </form>
         <span className="text-white text-center tracking-tighter font-geist">
           Já tem uma conta?{" "}
           <Link className="hover:text-[#ACFFAF] transition-all" to="/login">

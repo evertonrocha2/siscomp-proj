@@ -26,6 +26,7 @@ import Cadastros from "./pages/cadastro/Cadastros";
 import FormRequisicao from "./pages/requisicoes/FormRequisicao";
 import { listarRequisicoes } from "./infra/requisicoes";
 import CircularProgress from "@mui/material/CircularProgress";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 export default function App() {
   const [contatos, setContatos] = useState();
@@ -105,12 +106,14 @@ export default function App() {
           path="/fornecedores"
           element={
             usuario ? (
-              <FormFornecedor
-                setUsuario={setUsuario}
-                idEmEdicao={idEmEdicao}
-                setidEmEdicao={setidEmEdicao}
-                fornecedores={fornecedores}
-              />
+              <ProtectedAdminRoute>
+                <FormFornecedor
+                  setUsuario={setUsuario}
+                  idEmEdicao={idEmEdicao}
+                  setidEmEdicao={setidEmEdicao}
+                  fornecedores={fornecedores}
+                />
+              </ProtectedAdminRoute>
             ) : (
               <Navigate to="/login" />
             )
@@ -121,12 +124,14 @@ export default function App() {
           path="/contatos"
           element={
             usuario ? (
-              <FormContato
-                setUsuario={setUsuario}
-                contatos={contatos}
-                idEmEdicao={idEmEdicao}
-                setidEmEdicao={setidEmEdicao}
-              />
+              <ProtectedAdminRoute>
+                <FormContato
+                  setUsuario={setUsuario}
+                  contatos={contatos}
+                  idEmEdicao={idEmEdicao}
+                  setidEmEdicao={setidEmEdicao}
+                />
+              </ProtectedAdminRoute>
             ) : (
               <Navigate to="/login" />
             )
@@ -136,12 +141,14 @@ export default function App() {
           path="/cotacoes"
           element={
             usuario ? (
-              <FormCotacao
-                setUsuario={setUsuario}
-                idEmEdicao={idEmEdicao}
-                setidEmEdicao={setidEmEdicao}
-                cotacoes={cotacoes}
-              />
+              <ProtectedAdminRoute>
+                <FormCotacao
+                  setUsuario={setUsuario}
+                  idEmEdicao={idEmEdicao}
+                  setidEmEdicao={setidEmEdicao}
+                  cotacoes={cotacoes}
+                />
+              </ProtectedAdminRoute>
             ) : (
               <Navigate to="/login" />
             )
@@ -149,18 +156,28 @@ export default function App() {
         />
         <Route
           path="/cadastros"
-          element={usuario ? <Cadastros /> : <Navigate to="/login" />}
+          element={
+            usuario ? (
+              <ProtectedAdminRoute>
+                <Cadastros />
+              </ProtectedAdminRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/produtos"
           element={
             usuario ? (
-              <FormProdutos
-                setUsuario={setUsuario}
-                produtos={produtos}
-                idEmEdicao={idEmEdicao}
-                setidEmEdicao={setidEmEdicao}
-              />
+              <ProtectedAdminRoute>
+                <FormProdutos
+                  setUsuario={setUsuario}
+                  produtos={produtos}
+                  idEmEdicao={idEmEdicao}
+                  setidEmEdicao={setidEmEdicao}
+                />
+              </ProtectedAdminRoute>
             ) : (
               <Navigate to="/login" />
             )
@@ -170,7 +187,9 @@ export default function App() {
           path="/dashboard"
           element={
             usuario ? (
-              <Dashboard setUsuario={setUsuario} />
+             
+                <Dashboard setUsuario={setUsuario} />
+          
             ) : (
               <Navigate to="/login" />
             )
@@ -180,14 +199,16 @@ export default function App() {
           path="/requisicoes"
           element={
             usuario ? (
-              <FormRequisicao
-                setUsuario={setUsuario}
-                setidEmEdicao={setidEmEdicao}
-                requisicoes={requisicoes}
-                idEmEdicao={idEmEdicao}
-                usuarioId={usuario.id}
-                usuario={usuario}
-              />
+         
+                <FormRequisicao
+                  setUsuario={setUsuario}
+                  setidEmEdicao={setidEmEdicao}
+                  requisicoes={requisicoes}
+                  idEmEdicao={idEmEdicao}
+                  usuarioId={usuario.id}
+                  usuario={usuario}
+                />
+            
             ) : (
               <Navigate to="/login" />
             )

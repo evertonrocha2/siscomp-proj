@@ -44,13 +44,6 @@ export default function ListaCadastros({
       },
     },
     {
-      name: "Senha",
-      selector: (row) => row.senha,
-      style: {
-        fontWeight: "bold",
-      },
-    },
-    {
       name: "Tipo de Usuário",
       selector: (row) => row.userType,
       style: {
