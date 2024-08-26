@@ -45,4 +45,4 @@ Manteremos o backlog atualizado com todas as funcionalidades principais (Cadastr
 ### 8. Gerenciamento de Permissões (Admin e Colaboradores)
 - Descrição: Implementar o gerenciamento de permissões, permitindo que apenas administradores possam registrar novos administradores e colaboradores, e definir seus papéis e acessos.
 - Prioridade: Alta
-Status: Pendente
+Status: Concluído
