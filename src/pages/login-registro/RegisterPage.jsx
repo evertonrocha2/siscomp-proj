@@ -25,24 +25,29 @@ export default function RegisterPage() {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/users/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          uid: Date.now().toString(),
-          isAdmin: false,
-        }),
-      });
+      const response = await fetch(
+        "https://siscomp-proj-backend.onrender.com/api/users/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            uid: Date.now().toString(),
+            isAdmin: false,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Falha ao criar conta");
       }
 
       const data = await response.json();
+      alert("Usuário criado com sucesso!");
+
       console.log("Usuário criado:", data);
       navigate("/login");
     } catch (error) {

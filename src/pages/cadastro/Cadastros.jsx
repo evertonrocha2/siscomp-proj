@@ -86,18 +86,21 @@ export default function Cadastros() {
 
   const handleSubmitForm = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.senha,
-          uid: Date.now().toString(), 
-          isAdmin: userType,
-        }),
-      });
+      const response = await fetch(
+        "https://siscomp-proj-backend.onrender.com/api/users/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.senha,
+            uid: Date.now().toString(),
+            isAdmin: userType,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Falha ao criar usuário");
