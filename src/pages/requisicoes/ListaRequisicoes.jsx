@@ -10,6 +10,7 @@ import DataTable from "react-data-table-component";
 import { db } from "../../infra/firebase";
 import { useEffect, useState } from "react";
 import { Edit, InfoIcon, XIcon } from "lucide-react";
+import { listarFornecedores } from "../../infra/fornecedores";
 
 // eslint-disable-next-line react/prop-types
 export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
@@ -23,6 +24,8 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [requisicoes, setRequisicoes] = useState([]);
   const [selectedRequisicao, setSelectedRequisicao] = useState(null);
+  const [fornecedores, setFornecedores] = useState([]); 
+  const [selectedFornecedor, setSelectedFornecedor] = useState(""); 
 
   async function fetchRequisicoes() {
     const requisicoesSnapshot = await getDocs(collection(db, "requisicoes"));
@@ -60,9 +63,15 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
     }
   }
 
+  async function receberFornecedores() {
+    const fornecedoresList = await listarFornecedores();
+    setFornecedores(fornecedoresList);
+  }
+
   useEffect(() => {
     receberDoBanco();
     fetchRequisicoes();
+    receberFornecedores();
   }, [usuarioId, requisicoes]);
 
   const columns = [
@@ -143,7 +152,7 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
   };
 
   async function handleSave() {
-    if (selectedRowId && empresa && valorProduto) {
+    if (selectedRowId && selectedFornecedor && valorProduto) {
       const requisicaoRef = doc(db, "requisicoes", selectedRowId);
       const requisicaoSnap = await getDoc(requisicaoRef);
 
@@ -152,7 +161,7 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
         const cotacoes = requisicaoData.cotacoes || [];
 
         cotacoes.push({
-          nomeEmpresa: empresa,
+          nomeEmpresa: selectedFornecedor,
           valorProduto: valorProduto,
         });
 
@@ -169,7 +178,7 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
         });
 
         setShowPopup(false);
-        setEmpresa("");
+        setSelectedFornecedor("");
         setValorProduto("");
         setUpdateTrigger(!updateTrigger);
       }
@@ -203,13 +212,21 @@ export default function ListaRequisicoes({ setidEmEdicao, usuarioId }) {
                 Faça a cotação da Requisição!
               </h1>
               <div className="flex flex-col gap-2 mt-8">
-                <label>Nome da Empresa</label>
-                <input
-                  type="text"
-                  value={empresa}
-                  className=" border-slate-300 bg-slate-100 rounded py-2 px-4 text-slate-900 font-geist font-bold mx-auto"
-                  onChange={(e) => setEmpresa(e.target.value)}
-                />
+                <label>Nome do Fornecedor</label>
+                <select
+                  value={selectedFornecedor}
+                  onChange={(e) => setSelectedFornecedor(e.target.value)}
+                  className="border-slate-300 bg-slate-100 rounded py-2 px-4 text-slate-900 font-geist font-bold mx-auto"
+                >
+                  <option value="" disabled>
+                    Selecione um fornecedor
+                  </option>
+                  {fornecedores.map((fornecedor) => (
+                    <option key={fornecedor.id} value={fornecedor.nome}>
+                      {fornecedor.nome}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex flex-col gap-2">
                 <label>Valor do Produto</label>

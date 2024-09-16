@@ -27,6 +27,7 @@ import FormRequisicao from "./pages/requisicoes/FormRequisicao";
 import { listarRequisicoes } from "./infra/requisicoes";
 import CircularProgress from "@mui/material/CircularProgress";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import Blocked from "./pages/blocked/Blocked";
 
 export default function App() {
   const [contatos, setContatos] = useState();
@@ -114,6 +115,17 @@ export default function App() {
                   fornecedores={fornecedores}
                 />
               </ProtectedAdminRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/blocked"
+          element={
+            usuario ? (
+                <Blocked
+                />
             ) : (
               <Navigate to="/login" />
             )
