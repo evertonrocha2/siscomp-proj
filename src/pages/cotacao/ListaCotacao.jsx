@@ -20,8 +20,8 @@ export default function ListaCotacao({ cotacoes = [], setidEmEdicao }) {
       },
     },
     {
-      name: "Nome",
-      selector: (row) => row.nome,
+      name: "Fornecedor", 
+      selector: (row) => row.fornecedor?.nome,
       style: {
         fontWeight: "bold",
       },

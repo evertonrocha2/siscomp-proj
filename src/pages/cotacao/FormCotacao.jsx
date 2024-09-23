@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { listarProdutos, obterProduto } from "../../infra/produtos";
+import { listarFornecedores, obterFornecedor } from "../../infra/fornecedores"; // Importar as funções de fornecedores
 import {
   alterarCotacao,
   excluirCotacao,
@@ -21,6 +22,7 @@ export default function FormCotacao({
   setUsuario,
 }) {
   const [produtos, setProdutos] = useState([]);
+  const [fornecedores, setFornecedores] = useState([]); // State para fornecedores
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const { register, handleSubmit, setValue, reset } = useForm();
 
@@ -30,6 +32,14 @@ export default function FormCotacao({
       setProdutos(produtosList);
     }
     fetchProdutos();
+  }, []);
+
+  useEffect(() => {
+    async function fetchFornecedores() {
+      const fornecedoresList = await listarFornecedores(); // Chama a função para listar fornecedores
+      setFornecedores(fornecedoresList);
+    }
+    fetchFornecedores();
   }, []);
 
   useEffect(() => {
@@ -61,7 +71,7 @@ export default function FormCotacao({
         const cotacao = cotacoes.find((c) => c.id === idEmEdicao);
         if (cotacao) {
           setValue("produto", cotacao.produto?.id || "");
-          setValue("nome", cotacao.nome);
+          setValue("fornecedor", cotacao.fornecedor?.id || ""); // Adiciona o fornecedor
           setValue("data", cotacao.data);
           setValue("valor", cotacao.valor);
         }
@@ -72,23 +82,26 @@ export default function FormCotacao({
     fetchCotacao();
   }, [idEmEdicao, cotacoes, setValue, reset]);
 
+  // Submeter os dados
   async function submeterDados(dados) {
     console.log(dados);
     const produto = dados.produto ? await obterProduto(dados.produto) : null;
+    const fornecedor = dados.fornecedor ? await obterFornecedor(dados.fornecedor) : null;
 
-    const cotacaoComProduto = {
+    const cotacaoComFornecedor = {
       ...dados,
       produto: produto,
+      fornecedor: fornecedor, 
     };
 
     if (idEmEdicao) {
       await alterarCotacao({
-        ...cotacaoComProduto,
+        ...cotacaoComFornecedor,
         id: idEmEdicao,
       });
       setidEmEdicao("");
     } else {
-      let id = await inserirCotacao(cotacaoComProduto);
+      let id = await inserirCotacao(cotacaoComFornecedor);
       setidEmEdicao(id);
     }
   }
@@ -127,23 +140,25 @@ export default function FormCotacao({
               ))}
             </select>
           </div>
+
           <div className="flex flex-col gap-0">
-            <label className="text-slate-900 font-geist">Nome</label>
-            <input
+            <label className="text-slate-900 font-geist">
+              Selecionar Fornecedor
+            </label>
+            <select
+              {...register("fornecedor")}
               className="bg-slate-100 rounded py-2 px-4 text-slate-900 "
-              size={50}
-              {...register("nome", {
-                required: "Nome é obrigatório",
-                validate: {
-                  minLength: (value) =>
-                    value.length >= 5 ||
-                    "Nome deve ter pelo menos 5 caracteres",
-                  maxLength: (value) =>
-                    value.length <= 50 || "Nome só pode ter até 50 caracteres",
-                },
-              })}
-            />
+              onChange={(e) => setValue("fornecedor", e.target.value)}
+            >
+              <option value="">Selecione um fornecedor</option>
+              {fornecedores.map((fornecedor) => (
+                <option key={fornecedor.id} value={fornecedor.id}>
+                  {fornecedor.nome}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div className="flex flex-col gap-0">
             <label className="text-slate-900 font-geist">Data de cotação</label>
             <input
@@ -175,7 +190,7 @@ export default function FormCotacao({
           </div>
         </form>
         <TitleListas title="Lista de cotações cadastradas" />
-        <ListaCotacao cotacoes={cotacoes} setidEmEdicao={setidEmEdicao} />
+        <ListaCotacao fornecedores={fornecedores} cotacoes={cotacoes} setidEmEdicao={setidEmEdicao} />
       </div>
     </>
   );

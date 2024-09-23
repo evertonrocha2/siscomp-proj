@@ -73,7 +73,6 @@ export default function Cadastros() {
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const userData = userSnap.data();
-          // Você pode usar userData aqui se necessário
         } else {
           reset();
         }
